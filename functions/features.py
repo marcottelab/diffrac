@@ -3,6 +3,10 @@ import scipy.stats as stats
 import scipy.spatial.distance as dist
 import math
 
+#author: bliebeskind (primary) 
+#from protein_complex_maps/protein_complex_maps/features/ExtractFeatures/
+
+
 def js_pairs(P,Q,distance=False):
     '''Compute Jensen-Shannon distance metric for two frequency vectors. No zeros allowed!'''
     kl_distance = lambda x,y: np.sum(P * np.log10(P/Q)) # this was fastest, beating a map/zip approach and scipy.entropy

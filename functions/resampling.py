@@ -1,5 +1,9 @@
 import numpy as np
 
+#author: bliebeskind (primary) 
+#from protein_complex_maps/protein_complex_maps/features/ExtractFeatures/
+
+
 class FeatureResampling:
 
     def __init__(self): pass

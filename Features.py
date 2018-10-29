@@ -1,5 +1,8 @@
 #! /usr/bin/env python
 
+#author: bliebeskind (primary) 
+#from protein_complex_maps/protein_complex_maps/features/ExtractFeatures/
+
 import numpy as np
 import pandas as pd
 import itertools as it
