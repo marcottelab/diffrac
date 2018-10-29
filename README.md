@@ -23,4 +23,4 @@ python diffrac.py --elution_files ./data/MES_SEC_Cntl_20180601.prot_count_mFDRps
 
 ## Acknowledgements
 
-    Thanks to Ben Liebeskind (@bliebeskind) for elution file reader code. 
+Thanks to Ben Liebeskind (@bliebeskind) for elution file reader code. 
