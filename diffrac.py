@@ -12,7 +12,7 @@ from statsmodels.sandbox.stats.multicomp import fdrcorrection0
 
 from pyemd import emd
 
-import protein_complex_maps.features.ExtractFeatures.Features as eff
+import Features as eff
 
 def main():
 
