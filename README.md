@@ -9,10 +9,10 @@ Scripts to analyze differential fractionation (DIF-FRAC) experiments. Compares t
 ### ./data/MES_SEC_Cntl_20180601.prot_count_mFDRpsm001.elut 
     Size exclusion chromatography (SEC) fractionation experiment on mouse embryonic stem cells with no treatment (control)
 
-### ./data/MES_SEC_Cntl_20180601.prot_count_mFDRpsm001.elut
+### ./data/MES_SEC_RNAse_20180601.prot_count_mFDRpsm001.elut
     Size exclusion chromatography (SEC) fractionation experiment on mouse embryonic stem cells with RNase A treatment
 
-### ./data/MES_SEC_Cntl_20180601.prot_count_mFDRpsm001.elut
+### ./data/mouse_rna_annotations_go_uniprot_hentze.txt
     Annotation file for identifying known RNA binding proteins, most annotations are from Hentze et al. Nat Rev Mol Cell Biol. 2018 
 
 ## Sample Commandline:
