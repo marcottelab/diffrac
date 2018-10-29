@@ -1,6 +1,19 @@
 # diffrac
-Scripts to analyze differential fractionation (DIF-FRAC) experiments
+Scripts to analyze differential fractionation (DIF-FRAC) experiments. Compares two elut files for significant changes between conditions. 
 
+Scripts:
+diffrac.py
+    Primary script to compare experiments
+
+Data files:
+./data/MES_SEC_Cntl_20180601.prot_count_mFDRpsm001.elut 
+    Size exclusion chromatography (SEC) fractionation experiment on mouse embryonic stem cells with no treatment (control)
+
+./data/MES_SEC_Cntl_20180601.prot_count_mFDRpsm001.elut
+    Size exclusion chromatography (SEC) fractionation experiment on mouse embryonic stem cells with RNase A treatment
+
+./data/MES_SEC_Cntl_20180601.prot_count_mFDRpsm001.elut
+    Annotation file for identifying known RNA binding proteins, most annotations are from Hentze et al. Nat Rev Mol Cell Biol. 2018 
 
 Sample Commandline:
 
