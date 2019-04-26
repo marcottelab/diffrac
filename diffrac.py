@@ -84,7 +84,11 @@ def main():
             feature_df['annotated'] = annotated
 
         print len(feature_df)
-        feature_df = feature_df[~feature_df.index.str.contains('CONTAMINANT')]
+        try:
+            feature_df = feature_df[~feature_df.index.str.contains('CONTAMINANT')]
+        except AttributeError:
+            print "No contaminants"
+
         print len(feature_df)
 
         if 'zscore' in args.features:
