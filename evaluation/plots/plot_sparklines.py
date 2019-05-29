@@ -85,15 +85,30 @@ def main():
             if uid in file_dict[label].index and uid not in uids: 
                 uids.append(uid)
 
+    #kdrew: if no ids are present in any dataframe exit
+    if len(uids) == 0:
+        print "no ids present in dataframes: %s" % ' '.join(args.proteins)
+        return 
+
     std_fractions = [float(x) for x in args.standard_fractions]
-    f, axarr = plt.subplots(len(uids), sharex=True)
+
+    #kdrew: set size of figure so it doesn't get super squished with large number of proteins (an inch per protein seems about right)
+    figsize = [6.4, 4.8]
+    if len(uids) > 5:
+        figsize[1] = len(uids)
+    f, axarr = plt.subplots(len(uids), sharex=True, figsize=figsize)
+
     for i, uid in enumerate(uids):
         x = np.linspace(1,linspace_max,num=linspace_max)
         #print x
-        try:
-            max_val = max([max(file_dict[label].loc[uid].values) for label in file_dict.keys()])
-        except KeyError:
-            continue
+        #kdrew: store max value to annotate standards
+        max_val = 0
+        for label in file_dict.keys():
+            try:
+                max_val = max(max_val, max(file_dict[label].loc[uid].values)) 
+            except KeyError:
+                continue
+
         for j, label in enumerate(file_dict.keys()):
             if args.parse_fraction_name != None:
                 x = [int(c.split(args.fraction_name_sep)[args.parse_fraction_name.index('fraction')]) for c in df.columns]
@@ -145,7 +160,8 @@ def main():
     plt.legend(loc="upper right",fontsize=8)
 
 
-
+    #plt.tight_layout()
+    #plt.subplots_adjust(hspace = .001)
     plt.savefig(args.output_filename)
 
 
