@@ -17,7 +17,7 @@ expElutFile = file(params.experiment_elut)
 
 process runDiffrac {
 
-    publishDir "${params.results_path}"
+    publishDir "${params.results_path}", mode: 'copy'
 
     input:
     file ctrlElut from ctrlElutFile
@@ -34,51 +34,7 @@ process runDiffrac {
     """
 }
 
-process create_ids_file {
-
-    input:
-    file ctrlElut from ctrlElutFile
-    file expElut from expElutFile
-    
-    output:
-    val ids_file.readlines() into ids
-    stdout result2
-
-    """
-    cat $ctrlElut $expElut |cut -f1|sort|uniq > 'ids.txt'
-    """
-}
-
-process plotSparkline {
-
-    publishDir "${params.results_path}"
-
-    input:
-    file ctrlElut from ctrlElutFile
-    file expElut from expElutFile
-    val id1 from ids
-    
-    output:
-    file '*.pdf' into sparkline_pdf
-    stdout result3
-
-    """
-
-    echo "plotSparkline: $id1"
-
-    """
-}
-
 result.subscribe {
     println it
 }
-
-result2.subscribe {
-    println it
-}
-
-result3.subscribe {
-    println it
-}
-
 
