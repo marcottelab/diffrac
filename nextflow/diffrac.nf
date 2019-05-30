@@ -13,6 +13,7 @@ params.features = "diffrac diffrac_percent pearsonr diffrac_normalized mean_abun
 
 ctrlElutFile = file(params.control_elut)
 expElutFile = file(params.experiment_elut)
+annotationFile = file(params.annotation_file)
 
 
 process runDiffrac {
@@ -22,6 +23,7 @@ process runDiffrac {
     input:
     file ctrlElut from ctrlElutFile
     file expElut from expElutFile
+    file annotationFile1 from annotationFile
 
     output:
     file "${params.feat_file}" into feat_file
@@ -30,7 +32,7 @@ process runDiffrac {
     """
     echo 'running Diffrac';
 
-    python ${params.diffrac}/diffrac.py --elution_files $ctrlElut $expElut  --features ${params.features} --output_file ${params.feat_file} --annotated_list ${params.annotation_file}  --use_gmm 
+    python ${params.diffrac}/diffrac.py --elution_files $ctrlElut $expElut  --features ${params.features} --output_file ${params.feat_file} --annotated_list $annotationFile1  --use_gmm 
     """
 }
 

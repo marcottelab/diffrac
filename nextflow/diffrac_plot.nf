@@ -7,7 +7,7 @@ params.experiment_elut = ""
 params.annotation_file = ""
 params.split_amount = 250
 
-params.results_path = "./results"
+params.results_path = "./results/individual/"
 
 ctrlElutFile = file(params.control_elut)
 expElutFile = file(params.experiment_elut)
