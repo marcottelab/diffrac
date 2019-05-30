@@ -8,7 +8,6 @@ import matplotlib.mlab as mlab
 import matplotlib.pyplot as plt
 
 import argparse
-import pickle
 import pandas as pd
 import itertools as it
 
