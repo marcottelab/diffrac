@@ -1,11 +1,14 @@
 
 #kdrew: partial original code from ipython notebook: HEK293T_SEC_cntl_RNaseA
+#kdrew: earlier version in R from Claire McWhite
 
 import numpy as np
 import matplotlib as mpl
 mpl.use('Agg')
 import matplotlib.mlab as mlab
 import matplotlib.pyplot as plt
+
+import re
 
 import argparse
 import pandas as pd
@@ -110,7 +113,18 @@ def main():
 
         for j, label in enumerate(file_dict.keys()):
             if args.parse_fraction_name != None:
-                x = [int(c.split(args.fraction_name_sep)[args.parse_fraction_name.index('fraction')]) for c in df.columns]
+                #for c in df.columns:
+                #    c_split = c.split(args.fraction_name_sep)
+                #    print c_split
+                #    print c_split[args.parse_fraction_name.index('fraction')]
+                #    #[args.parse_fraction_name.index('fraction')]
+                x = [c.split(args.fraction_name_sep)[args.parse_fraction_name.index('fraction')] for c in df.columns]
+                try:
+                    x = [int(xx) for xx in x]
+                except  ValueError:
+                    x = [int(re.findall(r'\d+', xx)[0]) for xx in x]
+                    #re.split('[a-f]+', xx, flags=re.IGNORECASE)
+
 
             #kdrew: try to see if id is in data frame
             try:
