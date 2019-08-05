@@ -7,6 +7,10 @@ params.experiment_elut = ""
 params.annotation_file = ""
 params.split_amount = 250
 
+params.parse_fraction_fields = "cell_type col_type condition fraction subindex date"
+params.id_column = "Gene names  (primary )"
+params.annotation_file_sep = '\t'
+
 params.results_path = "./results/individual/"
 
 ctrlElutFile = file(params.control_elut)
@@ -50,7 +54,7 @@ process plotSparkline {
     for i in id1s_*;
     do
         cat \$i;
-        python ${params.diffrac}/evaluation/plots/plot_sparklines.py --filenames $ctrlElut $expElut --proteins `cat \$i` --output_filename `cat \$i`_sparkline.pdf --labels Control Experiment --annotation_file $annotation --parse_fraction_name cell_type col_type condition fraction subindex date
+        python ${params.diffrac}/evaluation/plots/plot_sparklines.py --filenames $ctrlElut $expElut --proteins `cat \$i` --output_filename `cat \$i`_sparkline.pdf --labels Control Experiment --annotation_file $annotation --parse_fraction_name ${params.parse_fraction_fields} --id_column ${params.id_column} --annotation_file_sep ${params.annotation_file_sep}
     done;
     """
 }
