@@ -77,7 +77,10 @@ def main():
         linspace_max = max(linspace_max, df.shape[1]) 
 
 
-    annotations_table = pd.read_csv(args.annotation_file, sep=args.annotation_file_sep, index_col=args.annotation_file_index)
+    if args.annotation_file != None:
+        annotations_table = pd.read_csv(args.annotation_file, sep=args.annotation_file_sep, index_col=args.annotation_file_index)
+    else:
+        annotations_table = None
     #hs_uniprot_table['genename'] = [str(gn).split()[0] for gn in hs_uniprot_table['Gene names'].values]
 
     #def plot_fractions(input_uids, cntl_df, rnaseA_df):
@@ -149,8 +152,11 @@ def main():
                 continue
 
         try:
-            genename = annotations_table.loc[uid][args.id_column]
-        except KeyError:
+            if annotations_table != None:
+                genename = annotations_table.loc[uid][args.id_column]
+            else:
+                genename = uid
+        except KeyError, AttributeError:
             genename = uid
         try:
             axarr[i].set_ylabel(genename, rotation=0, y=1.08)
