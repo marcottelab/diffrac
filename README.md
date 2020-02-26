@@ -5,6 +5,7 @@ Scripts to analyze differential fractionation (DIF-FRAC) experiments. Compares t
 ### diffrac.py
     Primary script to compare experiments
 ### evaluation/plots/plot_sparklines.py
+    Plotting script to visualize changes in elutions across experiments
 
 ## Data files:
 ### ./data/MES_SEC_Cntl_20180601.prot_count_mFDRpsm001.elut 
