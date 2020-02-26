@@ -152,7 +152,7 @@ def main():
                 continue
 
         try:
-            if annotations_table != None:
+            if annotations_table is not None:
                 genename = annotations_table.loc[uid][args.id_column]
             else:
                 genename = uid
