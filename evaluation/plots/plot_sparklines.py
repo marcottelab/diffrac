@@ -52,6 +52,8 @@ def main():
                                     help="Fraction index of standards run on column, example = '18 30 34 37 39 40 45', default = ''")
     parser.add_argument("--standard_mass", action="store", dest="standard_mass", nargs='+', required=False, default=[],
                                     help="Sizes of standards run on column, example = '2000 669 443 200 150 66 29', default = ''")
+    parser.add_argument("--plot_y_axis", action="store_true", dest="plot_y_axis", required=False, default=False,
+                                    help="Show y axis, default = False")
 
     args = parser.parse_args()
 
@@ -160,10 +162,12 @@ def main():
             genename = uid
         try:
             axarr[i].set_ylabel(genename, rotation=0, y=1.08)
-            axarr[i].get_yaxis().set_ticks([])
+            if not args.plot_y_axis:
+                axarr[i].get_yaxis().set_ticks([])
         except TypeError:
             axarr.set_ylabel(genename, rotation=0, y=1.08)
-            axarr.get_yaxis().set_ticks([])
+            if not args.plot_y_axis:
+                axarr.get_yaxis().set_ticks([])
 
     #kdrew: remove xticks
     try:
