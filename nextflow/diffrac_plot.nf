@@ -10,6 +10,7 @@ params.split_amount = 250
 params.parse_fraction_fields = "cell_type col_type condition fraction subindex date"
 params.id_column = "Gene names  (primary )"
 params.annotation_file_sep = '\t'
+params.additional_options = ''
 
 params.results_path = "./results/individual/"
 
@@ -50,11 +51,12 @@ process plotSparkline {
 
     """
     echo "plotSparkline: $id1"
+    echo "${params.annotation_file_sep}"
     split -l 1 $id1 id1s_
     for i in id1s_*;
     do
         cat \$i;
-        python ${params.diffrac}/evaluation/plots/plot_sparklines.py --filenames $ctrlElut $expElut --proteins `cat \$i` --output_filename `cat \$i`_sparkline.pdf --labels Control Experiment --annotation_file $annotation --parse_fraction_name ${params.parse_fraction_fields} --id_column ${params.id_column} --annotation_file_sep ${params.annotation_file_sep}
+        python ${params.diffrac}/evaluation/plots/plot_sparklines.py --filenames $ctrlElut $expElut --proteins `cat \$i` --output_filename `cat \$i`_sparkline.pdf --labels Control Experiment --annotation_file $annotation --parse_fraction_name ${params.parse_fraction_fields} --id_column ${params.id_column} --annotation_file_sep ${params.annotation_file_sep} ${params.additional_options}
     done;
     """
 }
