@@ -1,5 +1,5 @@
 # Use an official Python runtime as a parent image
-FROM ubuntu
+FROM ubuntu:18.04
 
 RUN apt-get update
 RUN apt-get upgrade -y
@@ -26,7 +26,7 @@ RUN pip install scipy==0.19.1
 RUN pip install scikit-learn==0.19.0
 RUN pip install pyemd
 
-RUN pip install statsmodels
+RUN pip install statsmodels==0.9.0
 RUN pip install numexpr==2.4.6
 
 #RUN pip install networkx
