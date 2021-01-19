@@ -27,6 +27,19 @@ python diffrac.py --elution_files ./data/MES_SEC_Cntl_20180601.prot_count_mFDRps
 python evaluation/plots/plot_sparklines.py --filenames ./data/MES_SEC_Cntl_20180601.prot_count_mFDRpsm001.elut ./data/MES_SEC_RNAse_20180601.prot_count_mFDRpsm001.elut --proteins P35601 Q9WUK4 Q8R323 Q99J62 Q9D0F6 --output_filename ./RFC_sparklines.pdf --labels Control RNAseA --parse_fraction_name cell_type col_type condition fraction subindex date --annotation_file ./data/uniprot-proteome_mouse_annotations_20180331.csv --annotation_file_sep , --id_column genename
 ```
 
+### diff_abun_zscore.py
+    Additional script for comparing experiments.
+    
+### Commandline format:
+```
+python zscore_formatter.py [# of replicates] [method for z-score collapse] [control elut file] [treatment elut file]
+```
+
+### Sample Commandline:
+```
+python zscore_formatter.py 1 stouffer ./data/MES_SEC_Cntl_20180601.prot_count_mFDRpsm001.elut ./data/MES_SEC_RNAse_20180601.prot_count_mFDRpsm001.elut
+```
+
 ## Acknowledgements
 
 Thanks to Ben Liebeskind (@bliebeskind) for elution file reader code. 
