@@ -33,12 +33,12 @@ python evaluation/plots/plot_sparklines.py --filenames ./data/MES_SEC_Cntl_20180
     
 ## Commandline format:
 ```
-python zscore_formatter.py [# of replicates] [method for z-score collapse] [control elut file] [treatment elut file]
+python diff_abun_zscore.py [# of replicates] [method for z-score collapse] [control elut file] [treatment elut file]
 ```
 
 ## Sample Commandline:
 ```
-python zscore_formatter.py 1 stouffer ./data/MES_SEC_Cntl_20180601.prot_count_mFDRpsm001.elut ./data/MES_SEC_RNAse_20180601.prot_count_mFDRpsm001.elut
+python diff_abun_zscore.py 1 stouffer ./data/MES_SEC_Cntl_20180601.prot_count_mFDRpsm001.elut ./data/MES_SEC_RNAse_20180601.prot_count_mFDRpsm001.elut
 ```
 
 ## Acknowledgements
