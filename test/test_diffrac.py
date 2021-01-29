@@ -122,8 +122,32 @@ class DifFracTest(unittest.TestCase):
         print df
         zscores = dfc.calc_zscore(df)
 
+        print "zscores:"
         print zscores.loc['e'] 
         np.testing.assert_almost_equal(zscores.loc['e'],1.4140145096382672)
+
+    def testSlidingZscore3(self, ):
+        print "sliding zscore3"
+        df = pd.DataFrame()
+        mean_abundance = dfc.calc_mean_abundance(self.elution, self.elution2)
+        mean_abundance.name = 'mean_abundance'
+        df = df.join(mean_abundance, how='outer')
+
+        feature_series = dfc.calc_diffrac(self.elution, self.elution2, normalize_totalCounts=True)
+        feature_series.name = 'diffrac_normalized'
+        df = df.join(feature_series, how='outer')
+
+        series = pd.Series([True,True,False,False,False],index= ['a','b','c','d','e'])
+        series.name = 'annotated'
+        df = df.join(series, how='outer')
+
+        print df
+
+        print "testing gmm with artifically low min weight threshold 0.2"
+        sliding_zscores = dfc.calc_sliding_zscore(df, window=5, use_gmm=True, min_weight_threshold=0.2)
+        print sliding_zscores
+        #np.testing.assert_almost_equal(sliding_zscores.loc['e']['sliding_zscore'],529.68150807816676) #kdrew: had some instability because both components had equal weight
+        np.testing.assert_almost_equal(sliding_zscores.loc['b']['sliding_zscore'],-1.2864445660676826)
 
     def testSlidingZscore(self, ):
         print "sliding zscore"
@@ -142,7 +166,10 @@ class DifFracTest(unittest.TestCase):
 
         print df
         sliding_zscores = dfc.calc_sliding_zscore(df, window=1)
+        print "Sliding_zscores"
         print sliding_zscores
+        #kdrew: these scores changed alot after commit 17182d3, the crucial change was to the line that queries for gt_entries, mean_abundance went from > to >= 
+        #kdrew: updated diffrac script to remove current index, now matches again
         np.testing.assert_almost_equal(sliding_zscores.loc['e']['sliding_zscore'],103.22222222222224)
 
         sliding_zscores = dfc.calc_sliding_zscore(df, window=1, use_gmm=True)
@@ -160,7 +187,7 @@ class DifFracTest(unittest.TestCase):
         #np.testing.assert_almost_equal(sliding_zscores.loc['e']['sliding_zscore'],529.68150807816676) #kdrew: had some instability because both components had equal weight
         np.testing.assert_almost_equal(sliding_zscores.loc['b']['sliding_zscore'],-1.2864445660676826)
 
-    def testSlidingZscore2(self, ):
+    def testSlidingZscore_nan(self, ):
         print "sliding zscore2"
         df = pd.DataFrame()
         mean_abundance = dfc.calc_mean_abundance(self.elution3, self.elution4)
