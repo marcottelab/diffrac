@@ -240,15 +240,21 @@ def calc_zscore(feat_df):
 def calc_sliding_zscore(feat_df, window=100, use_gmm=False, min_weight_threshold=0.6, log_transform=False): 
     sliding_zscore_dict = dict()
 
+    print "feat_df"
+    print feat_df
     for id1 in feat_df.sort_values("mean_abundance",ascending=False).query("mean_abundance == mean_abundance").index:
+        print "id1: %s" % id1
         i_abnd = feat_df.ix[id1]['mean_abundance']
+        print "i_abnd: %s" % i_abnd
         #kdrew: entries greater than current id
         if 'annotated' in feat_df.columns:
-            gt_entries = feat_df.query("~annotated and (mean_abundance >= %s)" % i_abnd).sort_values('mean_abundance')['mean_abundance']
+            #gt_entries = feat_df.query("~annotated and (mean_abundance >= %s)" % i_abnd).sort_values('mean_abundance')['mean_abundance']
+            #kdrew: now removes the current index from the entries, current index shouldn't be included in the background, minimal impact on large window sizes
+            gt_entries = feat_df.query("~annotated and (mean_abundance >= %s) and index != \'%s\'" % (i_abnd,id1)).sort_values('mean_abundance')['mean_abundance']
             lt_entries = feat_df.query("~annotated and (mean_abundance < %s)" % i_abnd).sort_values('mean_abundance', ascending=False)['mean_abundance']
         else:
             print "WARNING: Couldn't find column 'annotated', using all rows for distribution"
-            gt_entries = feat_df.query("(mean_abundance >= %s)" % i_abnd).sort_values('mean_abundance')['mean_abundance']
+            gt_entries = feat_df.query("(mean_abundance >= %s) and index != \'%s\'" % (i_abnd,id1)).sort_values('mean_abundance')['mean_abundance']
             lt_entries = feat_df.query("(mean_abundance < %s)" % i_abnd).sort_values('mean_abundance', ascending=False)['mean_abundance']
 
         print "gt_entries"
@@ -261,7 +267,12 @@ def calc_sliding_zscore(feat_df, window=100, use_gmm=False, min_weight_threshold
         if len(gt_entries) < h: j = j + (h - len(gt_entries)); h = len(gt_entries)
         if len(lt_entries) < j: h = h + (j - len(lt_entries)); j = len(lt_entries)
 
+        print "h: %s, j: %s" % (h,j)
+
         entries = list(gt_entries.index[:h]) + list(lt_entries.index[:j])
+        print "entries" 
+        print entries
+
         if log_transform:
             diffrac_normalized_list = (feat_df.ix[entries]['diffrac_normalized'].fillna(0.0)+0.1).apply(np.log10)
         else:
@@ -307,6 +318,7 @@ def calc_sliding_zscore(feat_df, window=100, use_gmm=False, min_weight_threshold
             i_diffrac_normalized =  feat_df.ix[id1]['diffrac_normalized']
 
         zscore = (i_diffrac_normalized - mean_tmp)/std_tmp
+        print "sliding_zscore: %s" %  zscore
         sliding_zscore_dict[id1] = zscore
 
     df = pd.DataFrame(sliding_zscore_dict.items(), columns=['ACC', 'sliding_zscore']).set_index('ACC')
