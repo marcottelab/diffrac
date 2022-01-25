@@ -54,8 +54,8 @@ def main():
                                     help="Sizes of standards run on column, example = '2000 669 443 200 150 66 29', default = ''")
     parser.add_argument("--plot_y_axis", action="store_true", dest="plot_y_axis", required=False, default=False,
                                     help="Show y axis, default = False")
-    parser.add_argument("--window_size", action="store", type=int, dest="window_size", required=False, default=1,
-                                    help="Window size if averaging across fractions, default = 1")
+    parser.add_argument("--smoothing_window_size", action="store", type=int, dest="smoothing_window_size", required=False, default=1,
+                                    help="Window size for smoothing/averaging across fractions, default = 1")
 
     args = parser.parse_args()
 
@@ -68,9 +68,9 @@ def main():
             df = df[df.columns[1:]]
 
         #kdrew: preprocess dataframe
-        if args.window_size > 1:
+        if args.smoothing_window_size > 1:
             #kdrew: take windowed average across fractions
-            df = df.rolling(args.window_size, axis=1, center=True, win_type='gaussian').mean(std=3)
+            df = df.rolling(args.smoothing_window_size, axis=1, center=True, win_type='gaussian').mean(std=3)
 
 
         if args.labels != None and len(args.labels) == len(args.filenames):
@@ -124,7 +124,8 @@ def main():
             except KeyError:
                 continue
 
-        for j, label in enumerate(file_dict.keys()):
+        #for j, label in enumerate(file_dict.keys()):
+        for j, label in enumerate(args.labels):
             if args.parse_fraction_name != None:
                 #for c in df.columns:
                 #    c_split = c.split(args.fraction_name_sep)
@@ -143,6 +144,7 @@ def main():
             try:
                 #kdrew: try to plot multiple axes
                 try:
+                    print "%s color: %s" % (label, list(it.islice(it.cycle(args.colors),j+1))[j])
                     axarr[i].plot(x,file_dict[label].loc[uid].values, color=list(it.islice(it.cycle(args.colors),j+1))[j], label=label)
                     #kdrew: only annotate with standards on the first plot
                     if j == 0:
