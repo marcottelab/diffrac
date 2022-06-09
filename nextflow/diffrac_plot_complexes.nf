@@ -16,6 +16,8 @@ expElutFile = file(params.experiment_elut)
 annotationFile = file(params.annotation_file)
 complexFile = file(params.complex_file)
 
+params.parse_fraction_fields = "cell_type col_type condition fraction subindex date"
+params.additional_options = ''
 
 
 process create_ids_file {
@@ -60,7 +62,7 @@ process plotSparkline {
         final_index=\$((10#\$process_id * ${params.split_amount} + 10#\$subprocess_id))
         #echo \$final_index
         #cat \$i;
-        python ${params.diffrac}/evaluation/plots/plot_sparklines.py --filenames $ctrlElut $expElut --proteins `cat \$i` --output_filename complex_\${final_index}_sparkline.pdf --labels Control Experiment --annotation_file $annotation --parse_fraction_name cell_type col_type condition fraction subindex date
+        python ${params.diffrac}/evaluation/plots/plot_sparklines.py --filenames $ctrlElut $expElut --proteins `cat \$i` --output_filename complex_\${final_index}_sparkline.pdf --labels Control Experiment --annotation_file $annotation --parse_fraction_name ${params.parse_fraction_fields} ${params.additional_options}
     done;
     """
 }
